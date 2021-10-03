@@ -18,8 +18,9 @@ export default function Navigation() {
       <Tab.Navigator
         initialRouteName="restaurants"
         screenOptions={({ route }) => ({
-          tabBarInactiveTintColor: "#646464",
+          headerShown: false,
           tabBarActiveTintColor: "#00a680",
+          tabBarInactiveTintColor: "#646464",
           tabBarIcon: ({ color }) => {
             let iconName
 

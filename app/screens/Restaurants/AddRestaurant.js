@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, ScrollView } from "react-native"
 import Toast from "react-native-easy-toast"
 import Loading from "../../components/Loading"
 import AddRestaurantForm from "../../components/Restaurant/AddRestaurantForm"
@@ -10,7 +10,7 @@ export default function AddRestaurant(props) {
   const toastRef = useRef()
 
   return (
-    <View>
+    <ScrollView>
       <AddRestaurantForm
         toastRef={toastRef}
         setIsLoading={setIsLoading}
@@ -18,7 +18,7 @@ export default function AddRestaurant(props) {
       />
       <Toast ref={toastRef} position="center" opacity={0.9} />
       <Loading isVisible={isLoading} text="Creando restaurante" />
-    </View>
+    </ScrollView>
   )
 }
 

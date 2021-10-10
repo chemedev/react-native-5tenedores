@@ -14,8 +14,8 @@ export default function InfoUser(props) {
     setLoadingText
   } = props
 
-  const storage = getStorage()
   const auth = getAuth()
+  const storage = getStorage()
   const storageRef = ref(storage, `avatar/${uid}`)
 
   const changeAvatar = async () => {

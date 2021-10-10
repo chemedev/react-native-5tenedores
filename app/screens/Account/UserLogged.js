@@ -51,7 +51,7 @@ export default function UserLogged() {
 const styles = StyleSheet.create({
   viewUserInfo: {
     maxHeight: "100%",
-    borderColor: "f2f2f2"
+    borderColor: "#f2f2f2"
   },
   btnCloseSession: {
     marginTop: 30,

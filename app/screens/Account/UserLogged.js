@@ -5,6 +5,7 @@ import { getAuth, signOut } from "firebase/auth"
 import Toast from "react-native-easy-toast"
 import Loading from "../../components/Loading"
 import InfoUser from "../../components/Account/InfoUser"
+import AccountOptions from "../../components/Account/AccountOptions"
 
 export default function UserLogged() {
   const auth = getAuth()
@@ -12,13 +13,15 @@ export default function UserLogged() {
   const [loading, setLoading] = useState(false)
   const [loadingText, setLoadingText] = useState(" ")
   const [userInfo, setUserInfo] = useState(null)
+  const [reloadUserInfo, setReloadUserInfo] = useState(false)
 
   useEffect(() => {
     ;(() => {
       const user = auth.currentUser
       setUserInfo(user)
     })()
-  }, [])
+    setReloadUserInfo(false)
+  }, [reloadUserInfo])
 
   return (
     <View style={styles.viewUserInfo}>
@@ -30,7 +33,9 @@ export default function UserLogged() {
           setLoadingText={setLoadingText}
         />
       )}
-      <Text>AccountOptions</Text>
+
+      <AccountOptions userInfo={userInfo} toastRef={toastRef} setReloadUserInfo={setReloadUserInfo} />
+
       <Button
         buttonStyle={styles.btnCloseSession}
         titleStyle={styles.btnCloseSessionText}

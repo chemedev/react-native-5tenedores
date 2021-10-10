@@ -1,7 +1,7 @@
 import React from "react"
 import { StyleSheet, View, Text } from "react-native"
 import { Avatar } from "react-native-elements"
-import * as Permissions from "expo-permissions"
+import * as MediaLibrary from "expo-media-library"
 import * as ImagePicker from "expo-image-picker"
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { getAuth, updateProfile } from "firebase/auth"
@@ -19,11 +19,8 @@ export default function InfoUser(props) {
   const storageRef = ref(storage, `avatar/${uid}`)
 
   const changeAvatar = async () => {
-    const resultPermission = await Permissions.getAsync(
-      Permissions.MEDIA_LIBRARY
-    )
-    const resultPermissionCamera =
-      resultPermission.permissions.mediaLibrary.status
+    const resultPermission = await MediaLibrary.requestPermissionsAsync()
+    const resultPermissionCamera = resultPermission.status
 
     if (resultPermissionCamera === "denied") {
       toastRef.current.show("Es necesario aceptar los permisos de la galería")

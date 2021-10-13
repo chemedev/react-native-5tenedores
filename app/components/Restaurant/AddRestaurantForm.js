@@ -5,8 +5,8 @@ import { filter, map, size } from "lodash"
 import * as MediaLibrary from "expo-media-library"
 import * as ImagePicker from "expo-image-picker"
 import * as Location from "expo-location"
-import MapView from "react-native-maps"
-import { Marker } from "react-native-maps"
+// import MapView from "react-native-maps"
+// import { Marker } from "react-native-maps"
 import Modal from "../Modal"
 import { v4 as uuidv4 } from "uuid"
 
@@ -109,12 +109,12 @@ export default function AddRestaurantForm(props) {
         onPress={addRestaurant}
         buttonStyle={styles.btnAddRestaurant}
       />
-      <Map
+      {/* <Map
         isVisibleMap={isVisibleMap}
         setIsVisibleMap={setIsVisibleMap}
         setLocationRestaurant={setLocationRestaurant}
         toastRef={toastRef}
-      />
+      /> */}
     </View>
   )
 }

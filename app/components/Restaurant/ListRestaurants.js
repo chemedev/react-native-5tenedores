@@ -56,7 +56,7 @@ function Restaurant({ restaurant, navigation }) {
             PlaceholderContent={<ActivityIndicator color="#fff" />}
             source={
               images[0]
-                ? { uri: images }
+                ? { uri: images[0] }
                 : require("../../../assets/img/no-image.png")
             }
             style={styles.imageRestaurant}

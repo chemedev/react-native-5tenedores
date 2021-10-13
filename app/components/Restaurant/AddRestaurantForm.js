@@ -11,7 +11,7 @@ import Modal from "../Modal"
 import { v4 as uuidv4 } from "uuid"
 
 import { getAuth } from "firebase/auth"
-import { getStorage, uploadBytes, ref } from "firebase/storage"
+import { getStorage, uploadBytes, ref, getDownloadURL } from "firebase/storage"
 import { getFirestore, addDoc, collection } from "firebase/firestore"
 
 const widthScreen = Dimensions.get("window").width
@@ -30,7 +30,9 @@ export default function AddRestaurantForm(props) {
   const storage = getStorage()
 
   const addRestaurant = () => {
-    if (!restaurantName || !restaurantAddress || !restaurantDescription) {
+    console.log(navigation)
+    // if (!restaurantName || !restaurantAddress || !restaurantDescription) {
+    if (!restaurantName || !restaurantDescription) {
       toastRef.current.show("Todos los campos del formulario son obligatorios")
     } else if (size(imagesSelected) === 0) {
       toastRef.current.show("El restaurante tiene que tener al menos una foto")
@@ -53,10 +55,10 @@ export default function AddRestaurantForm(props) {
             createdBy: auth.currentUser.uid
           })
           setIsLoading(false)
-          navigation.navigate("restaurants")
+          toastRef.current.show("Restaurante creado.")
+          navigation.navigate("screen-restaurants")
         })
-        .catch(e => {
-          console.log(e)
+        .catch(() => {
           toastRef.current.show(
             "Error al subir el restaurante, intentelo más tarde"
           )
@@ -75,14 +77,12 @@ export default function AddRestaurantForm(props) {
         const blob = await response.blob()
         const storageRef = ref(storage, `restaurants/${uuidv4()}`)
 
-        uploadBytes(storageRef, blob)
-          .then(async result => {
-            const photoUrl = await getDownloadURLdURL(result.metadata.name)
+        await uploadBytes(storageRef, blob)
+          .then(async () => {
+            const photoUrl = await getDownloadURL(storageRef)
             imageBlob.push(photoUrl)
           })
-          .catch(() => {
-            toastRef.current.show("Error al cargar imagen")
-          })
+          .catch(() => toastRef.current.show("Error al cargar imagen"))
       })
     )
 
@@ -149,7 +149,7 @@ function FormAdd(props) {
         containerStyle={styles.input}
         onChange={e => setRestaurantName(e.nativeEvent.text)}
       />
-      <Input
+      {/* <Input
         placeholder="Dirección"
         containerStyle={styles.input}
         onChange={e => setRestaurantAddress(e.nativeEvent.text)}
@@ -161,7 +161,7 @@ function FormAdd(props) {
             setIsVisibleMap(true)
           }
         }}
-      />
+      /> */}
       <Input
         placeholder="Descripción del restaurante"
         multiline={true}

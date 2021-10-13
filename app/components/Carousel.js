@@ -1,5 +1,4 @@
 import React from "react"
-import { StyleSheet } from "react-native"
 import { Image } from "react-native-elements"
 import Carousel from "react-native-snap-carousel"
 
@@ -19,4 +18,3 @@ export default function CarouselImages({ arrayImages, height, width }) {
   )
 }
 
-const styles = StyleSheet.create({})

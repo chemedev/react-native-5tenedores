@@ -1,11 +1,13 @@
-import React, { useEffect, useLayoutEffect, useState } from "react"
+import React, { useEffect, useLayoutEffect, useState, useCallback } from "react"
 import { StyleSheet, ScrollView, Text, View, Dimensions } from "react-native"
+import { useFocusEffect } from "@react-navigation/native"
 import { ListItem, Rating, Icon } from "react-native-elements"
 import { getFirestore, doc, getDoc } from "firebase/firestore"
 import Loading from "../../components/Loading"
 import CarouselImages from "../../components/Carousel"
 import Map from "../../components/Map"
 import { map } from "lodash"
+import ListReviews from "../../components/Restaurant/ListReviews"
 
 export default function Restaurant({
   navigation,
@@ -22,15 +24,17 @@ export default function Restaurant({
     navigation.setOptions({ title: name })
   }, [navigation])
 
-  useEffect(() => {
-    const docRef = doc(db, "restaurants", id)
-    getDoc(docRef).then(snap => {
-      const data = snap.data()
-      data.id = snap.id
-      setRestaurant(data)
-      setRating(data.rating)
-    })
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      const docRef = doc(db, "restaurants", id)
+      getDoc(docRef).then(snap => {
+        const data = snap.data()
+        data.id = snap.id
+        setRestaurant(data)
+        setRating(data.rating)
+      })
+    }, [])
+  )
 
   if (!restaurant) return <Loading isVisible={true} text="Cargando..." />
   return (
@@ -50,12 +54,12 @@ export default function Restaurant({
         address={restaurant.address}
         location={restaurant.location}
       />
+      <ListReviews navigation={navigation} idRestaurant={restaurant.id} />
     </ScrollView>
   )
 }
 
 function TitleRestaurant({ name, description, rating }) {
-  console.log(rating)
   return (
     <View style={styles.viewRestaurantTitle}>
       <View style={{ flexDirection: "row" }}>

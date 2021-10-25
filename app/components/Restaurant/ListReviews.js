@@ -14,7 +14,6 @@ import {
 export default function ListReviews({ navigation, idRestaurant }) {
   const [userLogged, setUserLogged] = useState(false)
   const [reviews, setReviews] = useState([])
-  console.log(reviews)
 
   getAuth().onAuthStateChanged(user => {
     user ? setUserLogged(true) : setUserLogged(false)

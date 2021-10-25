@@ -13,6 +13,9 @@ export default function LoginForm(props) {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({ email: "", password: "" })
   const [loading, setLoading] = useState(false)
+  const auth = getAuth()
+
+  auth.onAuthStateChanged(user => user && navigation.navigate("account"))
 
   const onChange = (e, type) => {
     setFormData({ ...formData, [type]: e.nativeEvent.text })
@@ -25,11 +28,10 @@ export default function LoginForm(props) {
       toastRef.current.show("El email es inválido")
     } else {
       setLoading(true)
-      const auth = getAuth()
       signInWithEmailAndPassword(auth, formData.email, formData.password)
         .then(() => {
           setLoading(false)
-          navigation.navigate("account")
+          navigation.goBack()
         })
         .catch(() => {
           setLoading(false)
